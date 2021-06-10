@@ -1,16 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Layout, Menu, Button, Dropdown, Typography } from 'antd';
-import { DownOutlined } from '@ant-design/icons';
+import { DownOutlined, EyeFilled, DeleteFilled } from '@ant-design/icons';
 import AddInvoiceModal from './components/AddInvoiceModal';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
+
 const { Text } = Typography;
 const { Header, Content } = Layout;
 function handleMenuClick(e) {
   console.log('click', e);
 }
 
+const RemoveInvoice =  ({payload}) => {
+  const dispatch = useDispatch();
+  
+  const remove = () => {
+    dispatch({
+      type: 'DELETE_INVOICE',
+      payload: `${payload}`
+    });
+  }
+  return (
+    <Button type="link" onClick={remove}>
+      <DeleteFilled style={{ color: 'red' }} />
+    </Button>
+  );
+} 
 const columns = [
+  {
+    title: '',
+    dataIndex: '_id',
+    render: (id) => (
+      <Link to={'/invoice/' + id}>
+        {' '}
+        <EyeFilled />
+      </Link>
+    ),
+  },
   {
     title: 'S/N',
     dataIndex: '_id',
@@ -39,25 +66,25 @@ const columns = [
   {
     title: 'Bill Date',
     dataIndex: 'createdAt',
+    render: (date) => moment(date).format('LLL'),
   },
+
   {
-    title: 'Operation',
+    title: 'Share',
     dataIndex: 'operation',
     render: (text, record) => {
       const menu = (
         <Menu onClick={handleMenuClick}>
           <Menu.Item key="1">Share Via Email</Menu.Item>
-          <Menu.Item key="3">Share Via Whatsapp</Menu.Item>
-          <Menu.Item key="4">
-            <Link to={"/invoice"+ record._id}>Open Invoice</Link>
-          </Menu.Item>
+          <Menu.Item key="3">Share Via SMS</Menu.Item>
+
           <Menu.Item key="2">
             <a
               href={'https://wa.me/' + record.phone}
               target="_blank"
               rel="noreferrer"
             >
-              Copy Link
+              Share Via Whatsapp
             </a>
           </Menu.Item>
         </Menu>
@@ -68,15 +95,22 @@ const columns = [
             <a
               className="ant-dropdown-link"
               onClick={(e) => e.preventDefault()}
+              href="#"
             >
-              Send Out <DownOutlined />
+              options <DownOutlined />
             </a>
           </Dropdown>
         </>
       );
     },
   },
+  {
+    title: 'Delete',
+    dataIndex: '_id',
+    render: (payload) => <RemoveInvoice payload={payload} />,
+  },
 ];
+
 
 const HomePage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);

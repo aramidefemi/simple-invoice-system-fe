@@ -21,8 +21,8 @@ class App extends React.Component {
         <Switch>
           <AuthRoute exact path="/" component={Login} />
           <AuthRoute exact path="/register" component={SignUp} />
-          <Route exact path="/home" component={HomePage} />
-          <Route exact path="/invoice" component={InvoicePage} />
+          <ProtectedRoute exact path="/home" component={HomePage} />
+          <Route exact path="/invoice/:id" component={InvoicePage} />
            
         </Switch>
       </Router>

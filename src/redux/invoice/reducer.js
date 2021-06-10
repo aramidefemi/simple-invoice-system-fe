@@ -1,5 +1,6 @@
 const initialState = {
-  invoices: []
+  invoices: [],
+  invoice: {}
 };
 
 export default function applicationReducer(
@@ -9,8 +10,10 @@ export default function applicationReducer(
   switch (type) {
     case 'GET_INVOICES': 
       const new_state = { ...state, invoices: payload };
-      console.log('payload',payload)
       return new_state;
+    case 'GET_INVOICE': 
+      const GET_INVOICE = { ...state, invoice: payload };
+      return GET_INVOICE;
     default:
       return state;
   }

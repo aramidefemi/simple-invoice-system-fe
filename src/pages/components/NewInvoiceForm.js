@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Input, Form } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
@@ -17,10 +17,6 @@ const NewInvoiceForm = ({ handleOk }) => {
       payload,
     });
     handleOk();
-    dispatch({
-      type: 'GET_INVOICES',
-    });
-    console.log('Success:', payload);
   };
 
   const onFinishFailed = (errorInfo) => {

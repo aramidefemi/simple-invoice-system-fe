@@ -67,9 +67,9 @@ export const put = async (url, body, token) => {
     return { success: false };
   }
 };
-export const deleteAPI = async (url, body, token) => {
+export const deleteAPI = async (url,  token) => {
   try {
-    const response = await axios.delete(local + url, body, {
+    const response = await axios.delete(local + url, {
       headers: {
         Authorization: 'Bearer ' + token, //the token is a variable which holds the token
       },

@@ -1,6 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect} from 'react';
+import { useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 const InvoicePage = () => {
+  
+  const location = useLocation();
+  
+  const {
+    invoice: { invoice },
+  } = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+  console.log(' location', location, invoice)
+  useEffect(() => {
+    dispatch({
+      type: 'GET_INVOICE',
+      payload: location.pathname
+    });
+  }, []);
+
   return ( 
       <body className='InvoicePage'>
         <div class="invoice-box">
@@ -14,11 +33,10 @@ const InvoicePage = () => {
                     </td>
 
                     <td>
-                      Invoice #: 123
+                      Invoice #: {`${invoice._id}`.slice(0, 7)}
                       <br />
-                      Created: January 1, 2015
-                      <br />
-                      Due: February 1, 2015
+                      Created: {moment(invoice.createdAt).format('LLL')}
+                      
                     </td>
                   </tr>
                 </table>
@@ -38,11 +56,11 @@ const InvoicePage = () => {
                     </td>
 
                     <td>
-                      Acme Corp.
+                    {invoice.company}
                       <br />
-                      John Doe
+                      {invoice.phone}
                       <br />
-                      john@example.com
+                      {invoice.email}
                     </td>
                   </tr>
                 </table>
@@ -70,7 +88,7 @@ const InvoicePage = () => {
             <tr class="item">
               <td>Website design</td>
 
-              <td>$300.00</td>
+              <td>$ {invoice.amount}.00</td>
             </tr>
 
             <tr class="item">
@@ -88,7 +106,7 @@ const InvoicePage = () => {
             <tr class="total">
               <td></td>
 
-              <td>Total: $385.00</td>
+              <td>Total: $ {invoice.amount + 75 + 10 }.00</td>
             </tr>
           </table>
         </div>
