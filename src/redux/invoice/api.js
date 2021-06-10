@@ -1,40 +1,24 @@
-import { post, get } from '../store';
+import { post, get, deleteAPI, put } from '../store';
 import { message } from 'antd';
 
 const api = (store) => (next) => async (action) => {
   let response;
   const token = store.getState()?.auth?.token;
   switch (action.type) {
-    case 'GET_SUBSCRIPTION':
-      response = await get('/subscriptions', token);
-      action.type = 'UPDATE_SUBSCRIBER_STATE';
-      action.payload = response?.data;
-
-      return next(action);
-    case 'ACTIVATE_PLAN':
-      response = await post('/activate-plan', action.payload, token);
-      action.type = 'UPDATE_SUBSCRIBER_STATE';
-      action.payload = response?.data;
-
-      return next(action);
-    case 'RECORD_PAYMENT':
-      response = await post('/record-payment', action.payload, token);
-      if (response.success) message.success('Wallet Top Up Successful');
-      action.type = 'UPDATE_SUBSCRIBER_STATE';
+    case 'GET_INVOICES':
+      response = await get('/invoice/all', token); 
       action.payload = response?.data;
       return next(action);
-    case 'PAYMENT_RECORDS':
-      response = await get('/payment/records', token);
-      action.type = 'UPDATE_SUBSCRIBER_STATE';
-      action.payload = response?.data;
+    case 'ADD_INVOICE':
+      response = await post('/invoice', action.payload, token);
+      if (response.success) message.success('Successful!');
+      return next(action); 
+    case 'EDIT_INVOICE':
+      response = await put('/invoice/'+action.payload.id, action.payload, token);
+      if (response.success) message.success('Successful!');
       return next(action);
-    case 'GET_GROUP_MEMBERS':
-      response = await get('/group/members', token);
-      action.type = 'UPDATE_SUBSCRIBER_STATE';
-      action.payload = response?.data; 
-      return next(action);
-    case 'ADD_GROUP_MEMBER':
-      response = await post('/new/group/member', action.payload, token);
+    case 'DELETE_INVOICE':
+      response = await deleteAPI('/invoice/'+action.payload.id, action.payload, token);
       if (response.success) message.success('Successful!');
       return next(action);
     default:

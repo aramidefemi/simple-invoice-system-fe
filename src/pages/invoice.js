@@ -74,7 +74,7 @@ const InvoicePage = () => {
             </tr>
 
             <tr class="item">
-              <td>Hosting (3 months)</td>
+              <td>Hosting (12 months)</td>
 
               <td>$75.00</td>
             </tr>

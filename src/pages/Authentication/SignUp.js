@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AuthWrapper from './Components/AuthWrapper';
-import { Input,  Button } from 'antd';
+import { Input, Button } from 'antd';
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { Upload, message } from 'antd';
@@ -33,7 +33,6 @@ const SignUp = () => {
     onChange(info) {
       setUploading(info.file.status);
       if (info.file.status !== 'uploading') {
-        
       }
       if (info.file.status === 'done') {
         message.success(`${info.file.name} file uploaded successfully`);
@@ -116,11 +115,16 @@ const SignUp = () => {
           <br />
           <br />
 
-          <div className="profile-photo"> >
-              <Button loading={loading} onClick={handleClick} className="btn primary btn-block">
-                Sign Up
-              </Button>
-             
+          <div className="profile-photo">
+            {' '}
+            >
+            <Button
+              loading={loading}
+              onClick={handleClick}
+              className="btn primary btn-block"
+            >
+              Sign Up
+            </Button>
           </div>
         </div>
       </div>

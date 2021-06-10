@@ -1,10 +1,5 @@
 const initialState = {
-  subscription: {
-    active: false,
-  },
-  plan: null,
-  payment_history: null,
-  group: null
+  invoices: []
 };
 
 export default function applicationReducer(
@@ -12,8 +7,9 @@ export default function applicationReducer(
   { type, payload }
 ) {
   switch (type) {
-    case 'UPDATE_SUBSCRIBER_STATE': 
-      const new_state = { ...state, ...payload };
+    case 'GET_INVOICES': 
+      const new_state = { ...state, invoices: payload };
+      console.log('payload',payload)
       return new_state;
     default:
       return state;
