@@ -1,6 +1,7 @@
 const initialState = {
   invoices: [],
-  invoice: {}
+  invoice: {},
+  stats: []
 };
 
 export default function applicationReducer(
@@ -14,6 +15,9 @@ export default function applicationReducer(
     case 'GET_INVOICE': 
       const GET_INVOICE = { ...state, invoice: payload };
       return GET_INVOICE;
+    case 'GET_PAYMENT_STATS':  
+      const GET_PAYMENT_STATS = { ...state, stats: payload }; 
+      return GET_PAYMENT_STATS;
     default:
       return state;
   }

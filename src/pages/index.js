@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Layout, Menu, Button, Dropdown, Typography } from 'antd';
+import {
+  Table,
+  Layout,
+  Menu,
+  Button,
+  Dropdown,
+  Typography,
+  Badge,
+  Statistic,
+  Card,
+} from 'antd';
 import { DownOutlined, EyeFilled, DeleteFilled } from '@ant-design/icons';
 import AddInvoiceModal from './components/AddInvoiceModal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,21 +22,21 @@ function handleMenuClick(e) {
   console.log('click', e);
 }
 
-const RemoveInvoice =  ({payload}) => {
+const RemoveInvoice = ({ payload }) => {
   const dispatch = useDispatch();
-  
+
   const remove = () => {
     dispatch({
       type: 'DELETE_INVOICE',
-      payload: `${payload}`
+      payload: `${payload}`,
     });
-  }
+  };
   return (
     <Button type="link" onClick={remove}>
       <DeleteFilled style={{ color: 'red' }} />
     </Button>
   );
-} 
+};
 const columns = [
   {
     title: '',
@@ -109,19 +119,34 @@ const columns = [
     dataIndex: '_id',
     render: (payload) => <RemoveInvoice payload={payload} />,
   },
+  {
+    title: 'Status',
+    dataIndex: 'status',
+    render: (payload) => (
+      <Badge count={payload} style={{ backgroundColor: colors[payload] }} />
+    ),
+  },
 ];
 
+const colors = {
+  'paid': 'green',
+  'pending': 'orange',
+  'unpaid': 'red'
+};
 
 const HomePage = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const dispatch = useDispatch();
   const {
-    invoice: { invoices },
+    invoice: { invoices, stats }, 
   } = useSelector((state) => state);
   console.log('invoices', invoices);
   useEffect(() => {
     dispatch({
       type: 'GET_INVOICES',
+    });
+    dispatch({
+      type: 'GET_PAYMENT_STATS',
     });
   }, []);
 
@@ -129,6 +154,7 @@ const HomePage = () => {
     setIsModalVisible(true);
   };
 
+  console.log('stats',stats)
   return (
     <Layout>
       <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
@@ -145,6 +171,35 @@ const HomePage = () => {
           className="site-layout-background"
           style={{ padding: 24, minHeight: 380 }}
         >
+          <div className="counter">
+            <Card>
+              <Statistic
+                title="Paid"
+                value={stats && stats[0]}
+                precision={1}
+                valueStyle={{ color: '#3f8600' }}
+                
+              />
+            </Card>
+            <Card>
+              <Statistic
+                title="Pending"
+                value={stats && stats[1]}
+                precision={1}
+                valueStyle={{ color: '#3f8600' }}
+                
+              />
+            </Card>
+            <Card>
+              <Statistic
+                title="Unpaid"
+                value={stats && stats[2]}
+                precision={1}
+                valueStyle={{ color: '#3f8600' }}
+                
+              />
+            </Card>
+          </div>
           <Button type="primary" onClick={showModal}>
             Add Invoice
           </Button>

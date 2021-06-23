@@ -16,6 +16,9 @@ const NewInvoiceForm = ({ handleOk }) => {
       type: 'ADD_INVOICE',
       payload,
     });
+    dispatch({
+      type: 'GET_PAYMENT_STATS',
+    });
     handleOk();
   };
 

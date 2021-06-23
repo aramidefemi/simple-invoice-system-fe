@@ -18,7 +18,7 @@ export const logger = (store) => (next) => (action) => {
 export const errorNotification = (error) => {
   message.error(error)
 };
-const local = 'https://invoice-system-api.herokuapp.com';
+const local = 'http://localhost:4000';
 
 
 const handleError = (e) => {

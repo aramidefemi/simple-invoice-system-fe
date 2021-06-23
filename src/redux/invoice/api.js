@@ -14,7 +14,12 @@ const api = (store) => (next) => async (action) => {
       response = await get('/invoice/all', token); 
       action.payload = response?.data;
       return next(action);
+    case 'GET_PAYMENT_STATS':
+      response = await get('/invoice/payment/stats', token); 
+      action.payload = response?.data;
+      return next(action);
     case 'ADD_INVOICE':
+      action.payload.status = 'pending';
       response = await post('/invoice', action.payload, token);
       if (response.success) message.success('Successful!');
       action.type = 'GET_INVOICES'
