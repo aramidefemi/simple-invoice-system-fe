@@ -1,6 +1,6 @@
 import React from 'react';
-import Login from './pages/authentication/Login';
-import SignUp from './pages/authentication/SignUp';
+import Login from './pages/Authentication/Login';
+import SignUp from './pages/Authentication/SignUp';
 import HomePage from './pages/'; 
 import InvoicePage from './pages/invoice'; 
 
